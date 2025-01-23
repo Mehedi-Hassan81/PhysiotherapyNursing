@@ -1,0 +1,35 @@
+body {
+    background-color: #e9f0f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reset-container {
+    background: #ffffff;
+    border: 1px solid #ccc;
+}
+
+h3 {
+    color: #17a2b8;
+}
+
+.btn-primary {
+    background-color: #17a2b8;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #138496;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.form-label {
+    font-weight: 600;
+}
