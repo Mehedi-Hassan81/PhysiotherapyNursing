@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফিজিওথেরাপিস্ট নির্বাচন</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            min-height: 100vh;
+        }
+
+        [data-lang="bn"] {
+            font-family: 'Kalpurush Bengali', sans-serif;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        [data-lang="en"] {
+            font-family: 'Fira Code', monospace;
+            line-height: 1.6;
+        }
+
+        /* Adjust font weights for better readability */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+        }
+
+        [data-lang="bn"] h1,
+        [data-lang="bn"] h2,
+        [data-lang="bn"] h3,
+        [data-lang="bn"] h4,
+        [data-lang="bn"] h5,
+        [data-lang="bn"] h6 {
+            font-weight: 700;
+        }
+
+        /* Adjust button text */
+        .btn {
+            font-family: 'Fira Code', monospace;
+        }
+
+        [data-lang="bn"].btn,
+        .btn [data-lang="bn"] {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+    
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+    
+        /* Language Switcher Styles */
+        .language-switcher {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+        
+        .language-btn {
+            padding: 12px 30px;
+            font-size: 1.4rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            border: 2px solid #4299e1;
+            color: #4299e1;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.1);
+        }
+        
+        .language-btn.active {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+        }
+
+        .language-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.2);
+        }
+
+        /* Sidebar Styles */
+        .filters-sidebar {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(66, 153, 225, 0.1);
+        }
+    
+        .filters-sidebar h3 {
+            margin-bottom: 30px;
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+    
+        .form-select, .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            background: #f8fafc;
+        }
+    
+        .form-select:focus, .form-control:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+            outline: none;
+        }
+
+        #filterButton {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+        }
+
+        #filterButton:hover {
+            background: linear-gradient(135deg, #3182ce, #2c5282);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+        }
+    
+        /* Main Content Styles */
+        .main-content {
+            padding-left: 40px;
+        }
+    
+        .main-content h1 {
+            color: #2d3748;
+            font-weight: 800;
+            margin-bottom: 40px;
+            font-size: 3.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            background: linear-gradient(135deg, #2d3748, #4299e1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 20px 0;
+        }
+    
+        /* Category Styles */
+        .category-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+    
+        .category-section h2 {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+    
+        .category-description {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.98), rgba(49, 130, 206, 0.98));
+            color: white;
+            padding: 30px;
+            opacity: 0;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            font-size: 1.4rem;
+            line-height: 1.7;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            text-align: left;
+            overflow-y: auto;
+            max-height: 100%;
+            z-index: 20;
+        }
+
+        .category-description span {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .category-box:hover .category-description {
+            opacity: 1;
+            transform: none;
+        }
+
+        .category-box {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: visible;
+            transition: all 0.4s ease;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+        }
+
+        .category-content {
+            position: relative;
+            flex-grow: 1;
+            width: 100%;
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+            overflow: visible;
+        }
+
+        .category-box h2 {
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+            color: #2d3748;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .category-box .price-range {
+            font-size: 1.6rem;
+            color: #4299e1;
+            margin-bottom: 25px;
+            font-weight: 600;
+            padding: 10px 20px;
+            background: rgba(66, 153, 225, 0.1);
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        .category-description {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.98), rgba(49, 130, 206, 0.98));
+            color: white;
+            padding: 30px;
+            opacity: 0;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            line-height: 1.7;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            text-align: left;
+        }
+
+        .category-box:hover .category-description {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        .see-more-btn {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+        }
+
+        .see-more-btn:hover {
+            background: linear-gradient(135deg, #3182ce, #2c5282);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+        }
+
+        /* Hide category sections by default */
+        .category-section {
+            display: none;
+        }
+
+        .category-section.active {
+            display: block;
+        }
+
+        /* Language display control */
+        [data-lang] {
+            display: none !important;
+        }
+
+        /* English language rules */
+        .en [data-lang="en"] {
+            display: block !important;
+        }
+
+        .en span[data-lang="en"],
+        .en a[data-lang="en"],
+        .en button[data-lang="en"],
+        .en option[data-lang="en"] {
+            display: inline-block !important;
+        }
+
+        .en select option[data-lang="en"] {
+            display: block !important;
+        }
+
+        .en select option[data-lang="bn"] {
+            display: none !important;
+        }
+
+        /* Bangla language rules */
+        .bn [data-lang="bn"] {
+            display: block !important;
+        }
+
+        .bn span[data-lang="bn"],
+        .bn a[data-lang="bn"],
+        .bn button[data-lang="bn"],
+        .bn option[data-lang="bn"] {
+            display: inline-block !important;
+        }
+
+        .bn select option[data-lang="bn"] {
+            display: block !important;
+        }
+
+        .bn select option[data-lang="en"] {
+            display: none !important;
+        }
+
+        /* Form elements specific rules */
+        select.form-select {
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .bn select.form-select {
+            font-family: 'Noto Sans Bengali', sans-serif !important;
+        }
+
+        .en select.form-select {
+            font-family: 'Fira Code', monospace !important;
+        }
+
+        select.form-select option {
+            font-family: inherit;
+        }
+
+        .bn select.form-select option[data-lang="bn"] {
+            font-family: 'Noto Sans Bengali', sans-serif !important;
+        }
+
+        .en select.form-select option[data-lang="en"] {
+            font-family: 'Fira Code', monospace !important;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .bn .form-group label {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+
+        .en .form-group label {
+            font-family: 'Fira Code', monospace;
+        }
+    </style>
+</head>
+<body class="bn">
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="btn language-btn active" onclick="setLanguage('bn')" id="bn-btn">বাংলা</button>
+        <button class="btn language-btn" onclick="setLanguage('en')" id="en-btn">English</button>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Left Sidebar with Filters -->
+            <div class="col-md-3">
+                <div class="filters-sidebar">
+                    <h3>
+                        <span data-lang="en">Filters</span>
+                        <span data-lang="bn">ফিল্টার</span>
+                    </h3>
+                    <select id="locationFilter" class="form-select">
+                        <option value="all" data-lang="en">All Locations</option>
+                        <option value="all" data-lang="bn">সকল অবস্থান</option>
+                        <option value="New York" data-lang="en">New York</option>
+                        <option value="New York" data-lang="bn">নিউইয়র্ক</option>
+                        <option value="Chicago" data-lang="en">Chicago</option>
+                        <option value="Chicago" data-lang="bn">শিকাগো</option>
+                        <option value="Los Angeles" data-lang="en">Los Angeles</option>
+                        <option value="Los Angeles" data-lang="bn">লস এঞ্জেলেস</option>
+                    </select>
+
+                    <select id="categoryFilter" class="form-select">
+                        <option value="all" data-lang="en">All Categories</option>
+                        <option value="all" data-lang="bn">সকল বিভাগ</option>
+                        <option value="A" data-lang="en">Category A</option>
+                        <option value="A" data-lang="bn">বিভাগ এ</option>
+                        <option value="B" data-lang="en">Category B</option>
+                        <option value="B" data-lang="bn">বিভাগ বি</option>
+                        <option value="C" data-lang="en">Category C</option>
+                        <option value="C" data-lang="bn">বিভাগ সি</option>
+                    </select>
+
+                    <select id="genderFilter" class="form-select">
+                        <option value="all" data-lang="en">All Genders</option>
+                        <option value="all" data-lang="bn">সকল লিঙ্গ</option>
+                        <option value="male" data-lang="en">Male</option>
+                        <option value="male" data-lang="bn">পুরুষ</option>
+                        <option value="female" data-lang="en">Female</option>
+                        <option value="female" data-lang="bn">মহিলা</option>
+                    </select>
+
+                    <select id="serviceTypeFilter" class="form-select">
+                        <option value="all" data-lang="en">All Service Types</option>
+                        <option value="all" data-lang="bn">সকল সেবার ধরন</option>
+                        <option value="in-chamber" data-lang="en">In-Chamber</option>
+                        <option value="in-chamber" data-lang="bn">চেম্বারে</option>
+                        <option value="home" data-lang="en">Home Service</option>
+                        <option value="home" data-lang="bn">হোম সার্ভিস</option>
+                    </select>
+
+                    <div class="form-group">
+                        <label for="dateFilter" class="mb-2">
+                            <span data-lang="en">Select Date</span>
+                            <span data-lang="bn">তারিখ নির্বাচন করুন</span>
+                        </label>
+                        <input type="date" id="dateFilter" class="form-control" min="" max="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeFilter" class="mb-2">
+                            <span data-lang="en">Select Time</span>
+                            <span data-lang="bn">সময় নির্বাচন করুন</span>
+                        </label>
+                        <select id="timeFilter" class="form-select">
+                            <option value="" data-lang="en">Select Time</option>
+                            <option value="" data-lang="bn">সময় নির্বাচন করুন</option>
+                            <option value="09:00" data-lang="en">09:00 AM</option>
+                            <option value="09:00" data-lang="bn">সকাল ০৯:০০</option>
+                            <option value="10:00" data-lang="en">10:00 AM</option>
+                            <option value="10:00" data-lang="bn">সকাল ১০:০০</option>
+                            <option value="11:00" data-lang="en">11:00 AM</option>
+                            <option value="11:00" data-lang="bn">সকাল ১১:০০</option>
+                            <option value="12:00" data-lang="en">12:00 PM</option>
+                            <option value="12:00" data-lang="bn">দুপুর ১২:০০</option>
+                            <option value="14:00" data-lang="en">02:00 PM</option>
+                            <option value="14:00" data-lang="bn">দুপুর ০২:০০</option>
+                            <option value="15:00" data-lang="en">03:00 PM</option>
+                            <option value="15:00" data-lang="bn">দুপুর ০৩:০০</option>
+                            <option value="16:00" data-lang="en">04:00 PM</option>
+                            <option value="16:00" data-lang="bn">বিকাল ০৪:০০</option>
+                            <option value="17:00" data-lang="en">05:00 PM</option>
+                            <option value="17:00" data-lang="bn">বিকাল ০৫:০০০</option>
+                        </select>
+                    </div>
+
+                    <button id="filterButton" class="btn btn-primary w-100">
+                        <span data-lang="en">Apply Filters</span>
+                        <span data-lang="bn">ফিল্টার প্রয়োগ করুন</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Side Content -->
+            <div class="col-md-9 main-content">
+                <h1 class="mb-4">
+                    <span data-lang="en">Physiotherapists</span>
+                    <span data-lang="bn">ফিজিওথেরাপিস্ট</span>
+                </h1>
+
+                <!-- Category Boxes -->
+                <div class="category-boxes">
+                    <!-- Category A Box -->
+                    <div class="category-box">
+                        <div class="category-content">
+                            <h2>
+                                <span data-lang="en">Category A</span>
+                                <span data-lang="bn">ক্যাটাগরি A</span>
+                            </h2>
+                            <div class="price-range">$110-125/hr</div>
+                            <div class="category-description">
+                                <span data-lang="en">Premium service with highly experienced physiotherapists (10+ years). 
+                                Includes comprehensive treatment plans, priority scheduling, and follow-up consultations.</span>
+                                <span data-lang="bn">অভিজ্ঞ ফিজিওথেরাপিস্টদের সাথে প্রিমিয়াম সেবা (১০+ বছর)।
+                                ব্যাপক চিকিৎসা পরিকল্পনা, অগ্রাধিকার ভিত্তিক সময়সূচী এবং ফলো-আপ পরামর্শ অন্তর্ভুক্ত।</span>
+                            </div>
+                        </div>
+                        <button class="see-more-btn" onclick="showCategory('A')">
+                            <span data-lang="en">See More</span>
+                            <span data-lang="bn">আরও দেখুন</span>
+                        </button>
+                    </div>
+
+                    <!-- Category B Box -->
+                    <div class="category-box">
+                        <div class="category-content">
+                            <h2>
+                                <span data-lang="en">Category B</span>
+                                <span data-lang="bn">ক্যাটাগরি B</span>
+                            </h2>
+                            <div class="price-range">$85-110/hr</div>
+                            <div class="category-description">
+                                <span data-lang="en">Experienced physiotherapists (5-10 years) offering quality treatment 
+                                with standard consultation and follow-up services.</span>
+                                <span data-lang="bn">অভিজ্ঞ ফিজিওথেরাপিস্ট (৫-১০ বছর) যারা মানসম্মত চিকিৎসা প্রদান করেন
+                                স্ট্যান্ডার্ড পরামর্শ এবং ফলো-আপ সেবাসহ।</span>
+                            </div>
+                        </div>
+                        <button class="see-more-btn" onclick="showCategory('B')">
+                            <span data-lang="en">See More</span>
+                            <span data-lang="bn">আরও দেখুন</span>
+                        </button>
+                    </div>
+
+                    <!-- Category C Box -->
+                    <div class="category-box">
+                        <div class="category-content">
+                            <h2>
+                                <span data-lang="en">Category C</span>
+                                <span data-lang="bn">ক্যাটাগরি C</span>
+                            </h2>
+                            <div class="price-range">$65-85/hr</div>
+                            <div class="category-description">
+                                <span data-lang="en">Entry-level physiotherapists (2-5 years) providing basic physiotherapy 
+                                services at affordable rates.</span>
+                                <span data-lang="bn">নবীন ফিজিওথেরাপিস্ট (২-৫ বছর) যারা সাশ্রয়ী মূল্যে
+                                মৌলিক ফিজিওথেরাপি সেবা প্রদান করেন।</span>
+                            </div>
+                        </div>
+                        <button class="see-more-btn" onclick="showCategory('C')">
+                            <span data-lang="en">See More</span>
+                            <span data-lang="bn">আরও দেখুন</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category Sections (Initially Hidden) -->
+                <div id="categoryA" class="category-section">
+                    <div class="category-cards"></div>
+                </div>
+
+                <div id="categoryB" class="category-section">
+                    <div class="category-cards"></div>
+                </div>
+
+                <div id="categoryC" class="category-section">
+                    <div class="category-cards"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Updated sample data for physiotherapists with translations
+        const physiotherapists = [
+            { 
+                name: 'Dr. Alice Doe', 
+                location: 'New York', 
+                price: 'A', 
+                rate: '$120/hr', 
+                gender: 'female', 
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '12 years',
+                    bn: '১২ বছর'
+                },
+                specializedFields: {
+                    en: ['Sports Injuries', 'Rehabilitation', 'Orthopedic Physical Therapy'],
+                    bn: ['ক্রীড়া আঘাত', 'পুনর্বাসন', 'অর্থোপেডিক ফিজিক্যাল থেেরাপি']
+                },
+                serviceTypes: ['in-chamber', 'home'],
+                description: {
+                    en: 'Specialized in sports medicine and rehabilitation with extensive experience in treating professional athletes.',
+                    bn: 'ক্রীড়া চিকিৎসা এবং পুনর্বাসনে বিশেষজ্ঞ, পেশাদার ক্রীড়াবিদদের চিকিৎসায় বিস্তৃত অভিজ্ঞতা রয়েছে।'
+                },
+                education: {
+                    en: 'DPT from Columbia University',
+                    bn: 'কলাম্বিয়া বিশ্ববিদ্যালয় থেকে ডিপিটি'
+                },
+                certifications: {
+                    en: ['APTA Certified', 'Sports Physical Therapy Specialist'],
+                    bn: ['এপিটিএ সার্টিফাইড', 'ক্রীড়া ফিজিক্যাল থেরাপি বিশেষজ্ঞ']
+                }
+            },
+            {
+                name: 'Dr. John Smith', 
+                location: 'Chicago', 
+                price: 'A', 
+                rate: '$115/hr', 
+                gender: 'male', 
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '15 years',
+                    bn: '১৫ বছর'
+                },
+                specializedFields: {
+                    en: ['Neurological Rehabilitation', 'Geriatric Care'],
+                    bn: ['স্নায়বিক পুনর্বাসন', 'বয়োজ্যেষ্ঠ যত্ন']
+                },
+                serviceTypes: ['in-chamber'],
+                description: {
+                    en: 'Expert in neurological rehabilitation with focus on stroke recovery and elderly care.',
+                    bn: 'স্ট্রোক রিকভারি এবং বয়স্ক যত্নে বিশেষজ্ঞ, স্নায়বিক পুনর্বাসনে দক্ষ।'
+                },
+                education: {
+                    en: 'DPT from Northwestern University',
+                    bn: 'নর্থওয়েস্টার্ন বিশ্ববিদ্যালয় থেকে ডিপিটি'
+                },
+                certifications: {
+                    en: ['Neurologic Clinical Specialist', 'Geriatric Certified Specialist'],
+                    bn: ['স্নায়বিক ক্লিনিকাল বিশেষজ্ঞ', 'বয়োজ্যেষ্ঠ সার্টিফাইড বিশেষজ্ঞ']
+                }
+            },
+            { 
+                name: 'Dr. Sarah Johnson', 
+                location: 'Los Angeles', 
+                price: 'B', 
+                rate: '$90/hr', 
+                gender: 'female', 
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '8 years',
+                    bn: '৮ বছর'
+                },
+                specializedFields: {
+                    en: ['Pediatric Physical Therapy', 'Developmental Disorders'],
+                    bn: ['শিশু ফিজিক্যাল থেরাপি', 'বিকাশজনিত সমস্যা']
+                },
+                serviceTypes: ['home', 'in-chamber'],
+                description: {
+                    en: 'Specialized in pediatric care and developmental therapy with a gentle approach.',
+                    bn: 'কোমল পদ্ধতিতে শিশু যত্ন এবং বিকাশমূলক থেরাপিতে বিশেষজ্ঞ।'
+                },
+                education: {
+                    en: 'DPT from USC',
+                    bn: 'ইউএসসি থেকে ডিপিটি'
+                },
+                certifications: {
+                    en: ['Pediatric Clinical Specialist'],
+                    bn: ['শিশু চিকিৎসা বিশেষজ্ঞ']
+                }
+            },
+            { 
+                name: 'Dr. Michael Chen', 
+                location: 'New York', 
+                price: 'B', 
+                rate: '$85/hr', 
+                gender: 'male', 
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '7 years',
+                    bn: '৭ বছর'
+                },
+                specializedFields: {
+                    en: ['Sports Medicine', 'Post-surgical Rehabilitation'],
+                    bn: ['ক্রীড়া চিকিৎসা', 'অস্ত্রোপচার-পরবর্তী পুনর্বাসন']
+                },
+                serviceTypes: ['in-chamber'],
+                description: {
+                    en: 'Focuses on sports-related injuries and post-operative rehabilitation.',
+                    bn: 'ক্রীড়া সংক্রান্ত আঘাত এবং অস্ত্রোপচার-পরবর্তী পুনর্বাসনে বিশেষজ্ঞ।'
+                },
+                education: {
+                    en: 'DPT from NYU',
+                    bn: 'এনওয়াইইউ থেকে ডিপিটটটটি'
+                },
+                certifications: {
+                    en: ['Sports Clinical Specialist'],
+                    bn: ['ক্রীড়া চিকিৎসা বিশেষজ্ঞ']
+                }
+            },
+            {
+                name: 'Dr. Emily Brown', 
+                location: 'Chicago', 
+                price: 'C', 
+                rate: '$70/hr', 
+                gender: 'female', 
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '4 years',
+                    bn: '৪ বছর'
+                },
+                specializedFields: {
+                    en: ['General Physical Therapy', 'Workplace Injuries'],
+                    bn: ['সাধারণ ফিজিক্যাল থেরাপি', 'কর্মক্ষেত্রের আঘাত']
+                },
+                serviceTypes: ['home'],
+                description: {
+                    en: 'Experienced in treating workplace injuries and general rehabilitation.',
+                    bn: 'কর্মক্ষেত্রের আঘাত এবং সাধারণ পুনর্বাসনে অভিজ্ঞ।'
+                },
+                education: {
+                    en: 'DPT from University of Illinois',
+                    bn: 'ইলিনয় বিশ্ববিদ্যালয় থেকে ডিপিটি'
+                },
+                certifications: {
+                    en: ['Orthopedic Clinical Specialist'],
+                    bn: ['অর্থোপেডিক ক্লিনিকাল বিশেষজ্ঞ']
+                }
+            },
+            {
+                name: 'Dr. Robert Wilson',
+                location: 'Los Angeles',
+                price: 'B',
+                rate: '$110/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '11 years',
+                    bn: '১১ বছর'
+                },
+                specializedFields: {
+                    en: ['Manual Therapy', 'Spine Rehabilitation'],
+                    bn: ['ম্যানুয়াল থেরাপি', 'মেরুদণ্ড পুনর্বাসন']
+                },
+                serviceTypes: ['in-chamber', 'home'],
+                description: {
+                    en: 'Specialized in spine rehabilitation and manual therapy techniques.',
+                    bn: 'মেরুদণ্ড পুনর্বাসন এবং ম্যানুয়াল থেরাপি কৌশলে বিশেষজ্ঞ।'
+                },
+                education: {
+                    en: 'DPT from UCLA',
+                    bn: 'ইউসিএলএ থেকে ডিপিটি'
+                },
+                certifications: {
+                    en: ['Manual Therapy Certified', 'Spine Specialist'],
+                    bn: ['ম্যানুয়াল থেরাপি সার্টিফাইড', 'মেরুদণ্ড বিশেষজ্ঞ']
+                }
+            },
+            {
+                name: 'Dr. Lisa Anderson',
+                location: 'Los Angeles',
+                price: 'A',
+                rate: '$125/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '14 years',
+                    bn: '১৪ বছর'
+                },
+                specializedFields: {
+                    en: ['Vestibular Rehabilitation', 'Balance Disorders', 'Neurological Conditions'],
+                    bn: ['ভেস্টিবুলার পুনর্বাসন', 'ভারসাম্য সমস্যা', 'স্নায়বিক অবস্থা']
+                },
+                serviceTypes: ['in-chamber'],
+                description: {
+                    en: 'Specialist in treating vestibular disorders and balance issues with extensive neurological expertise.',
+                    bn: 'ভেস্টিবুলার সমস্যা এবং ভারসাম্য সংক্রান্ত সমস্যার চিকিৎসায় বিশেষজ্ঞ, স্নায়বিক বিষয়ে বিস্তৃত অভিজ্ঞতা রয়েছে।'
+                },
+                education: {
+                    en: 'DPT from USC, Neurological Specialty Certification',
+                    bn: 'ইউএসসি থেকে ডিপিটি, স্নায়বিক বিশেষজ্ঞতা সার্টিফিকেশন'
+                },
+                certifications: {
+                    en: ['Vestibular Rehabilitation Specialist', 'Neurologic Specialist'],
+                    bn: ['ভেস্টিবুলার পুনর্বাসন বিশেষজ্ঞ', 'স্নায়বিক বিশেষজ্ঞ']
+                }
+            },
+            {
+                name: 'Dr. David Kim',
+                location: 'Chicago',
+                price: 'B',
+                rate: '$88/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '9 years',
+                    bn: '৯ বছর'
+                },
+                specializedFields: {
+                    en: ['Pediatric Development', 'Sensory Integration', 'Early Intervention'],
+                    bn: ['শিশু বিকাশ', 'সংবেদন সমন্বয়', 'প্রারম্ভিক হস্তক্ষেপ']
+                },
+                serviceTypes: ['home', 'in-chamber'],
+                description: {
+                    en: 'Experienced in pediatric therapy and sensory integration techniques, specializing in early developmental intervention.',
+                    bn: 'শিশু থেরাপি এবং সংবেদন সমন্বয় কৌশলে অভিজ্ঞ, প্রারম্ভিক বিকাশ হস্তক্ষেপে বিশেষজ্ঞ।'
+                },
+                education: {
+                    en: 'DPT from Northwestern University, Pediatric Specialty',
+                    bn: 'নর্থওয়েস্টার্ন বিশ্ববিদ্যালয় থেকে ডিপিটি, শিশু বিশেষজ্ঞতা'
+                },
+                certifications: {
+                    en: ['Pediatric Development Specialist', 'Sensory Integration Certified'],
+                    bn: ['শিশু বিকাশ বিশেষজ্ঞ', 'সংবেদন সমন্বয় সার্টিফাইড']
+                }
+            },
+            {
+                name: 'Dr. Rachel Green',
+                location: 'Chicago',
+                price: 'C',
+                rate: '$65/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '3 years',
+                    bn: '৩ বছর'
+                },
+                specializedFields: {
+                    en: ['General Physiotherapy', 'Sports Injuries', 'Fitness Training'],
+                    bn: ['সাধারণ ফিজিওথেরাপি', 'ক্রীড়া আঘাত', 'ফিটনেস প্রশিক্ষণ']
+                },
+                serviceTypes: ['home'],
+                description: {
+                    en: 'Focused on sports injury recovery and prevention, with expertise in fitness training and rehabilitation.',
+                    bn: 'ক্রীড়া আঘাত থেকে সুস্থতা এবং প্রতিরোধে দক্ষ, ফিটনেস প্রশিক্ষণ ও পুনর্বাসনে বিশেষজ্ঞ।'
+                },
+                education: {
+                    en: 'DPT from UIC, Sports Medicine Certification',
+                    bn: 'ইউআইসি থেকে ডিপিটি, ক্রীড়া চিকিৎসা সার্টিফিকেশন'
+                },
+                certifications: {
+                    en: ['Sports Therapy Certified', 'Fitness Training Specialist'],
+                    bn: ['ক্রীড়া থেরাপি সার্টিফাইড', 'ফিটনেস প্রশিক্ষণ বিশেষজ্ঞ']
+                }
+            },
+            {
+                name: 'Dr. Kevin Patel',
+                location: 'Los Angeles',
+                price: 'C',
+                rate: '$68/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '4 years',
+                    bn: '৪ বছর'
+                },
+                specializedFields: {
+                    en: ['Geriatric Care', 'Balance Training', 'Fall Prevention'],
+                    bn: ['বয়োজ্যেষ্ঠ যত্ন', 'ভারসাম্য প্রশিক্ষণ', 'পতন প্রতিরোধ']
+                },
+                serviceTypes: ['home', 'in-chamber'],
+                description: {
+                    en: 'Specialized in elderly care and fall prevention, with focus on improving mobility and independence.',
+                    bn: 'বয়োজ্যেষ্ঠ যত্ন এবং পতন প্রতিরোধে বিশেষজ্ঞ, চলাচল ও স্বাধীনতা উন্নয়নে বিশেষ মনোযোগী।'
+                },
+                education: {
+                    en: 'DPT from CSULB, Geriatric Care Certification',
+                    bn: 'সিএসইউএলবি থেকে ডিপিটি, বয়োজ্যেষ্ঠ যত্ন সার্টিফিকেশন'
+                },
+                certifications: {
+                    en: ['Geriatric Care Specialist', 'Balance and Mobility Expert'],
+                    bn: ['বয়োজ্যেষ্ঠ যত্ন বিশেষজ্ঞ', 'ভারসাম্য ও চলাচল বিশেষজ্ঞ']
+                }
+            },
+            {
+                name: 'Dr. Thomas Wright',
+                location: 'New York',
+                price: 'B',
+                rate: '$92/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '7 years',
+                    bn: '৭ বছর'
+                },
+                specializedFields: {
+                    en: ['Orthopedic Therapy', 'Joint Rehabilitation', 'Post-Surgery Care'],
+                    bn: ['অর্থোপেডিক থেরাপি', 'জয়েন্ট পুনর্বাসন', 'অস্ত্রোপচার-পরবর্তী যত্ন']
+                },
+                serviceTypes: ['in-chamber'],
+                description: {
+                    en: 'Specializes in joint and bone rehabilitation, with expertise in post-surgical recovery programs.',
+                    bn: 'জয়েন্ট এবং হাড় পুনর্বাসনে বিশেষজ্ঞ, অস্ত্রোপচার-পরবর্তী সুস্থতা প্রোগ্রামে দক্ষ।'
+                },
+                education: {
+                    en: 'DPT from NYU, Orthopedic Specialty',
+                    bn: 'এনওয়াইইউ থেকে ডিপিটি, অর্থোপেডিক বিশেষজ্ঞতা'
+                },
+                certifications: {
+                    en: ['Orthopedic Specialist', 'Joint Rehabilitation Expert'],
+                    bn: ['অর্থোপেডিক বিশেষজ্ঞ', 'জয়েন্ট পুনর্বাসন বিশেষজ্ঞ']
+                }
+            },
+            {
+                name: 'Dr. Maria Rodriguez',
+                location: 'Los Angeles',
+                price: 'A',
+                rate: '$118/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: {
+                    en: '13 years',
+                    bn: '১৩ বছর'
+                },
+                specializedFields: {
+                    en: ['Women\'s Health', 'Prenatal Care', 'Postpartum Rehabilitation'],
+                    bn: ['নারী স্বাস্থ্য', 'প্রসবপূর্ব যত্ন', 'প্রসবোত্তর পুনর্বাসন']
+                },
+                serviceTypes: ['in-chamber', 'home'],
+                description: {
+                    en: 'Expert in women\'s health physiotherapy, specializing in prenatal and postpartum care.',
+                    bn: 'নারী স্বাস্থ্য ফিজিওথেরাপিতে বিশেষজ্ঞ, প্রসবপূর্ব এবং প্রসবোত্তর যত্নে দক্ষ।'
+                },
+                education: {
+                    en: 'DPT from Stanford, Women\'s Health Specialty',
+                    bn: 'স্ট্যানফোর্ড থেকে ডিপিটি, নারী স্বাস্থ্য বিশেষজ্ঞতা'
+                },
+                certifications: {
+                    en: ['Women\'s Health Specialist', 'Prenatal Care Expert'],
+                    bn: ['নারী স্বাস্থ্য বিশেষজ্ঞ', 'প্রসবপূর্ব যত্ন বিশেষজ্ঞ']
+                }
+            }
+        ];
+
+        // Set date input constraints (today to 6 months ahead)
+        const dateInput = document.getElementById('dateFilter');
+        const today = new Date();
+        const sixMonthsLater = new Date();
+        sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
+
+        dateInput.min = today.toISOString().split('T')[0];
+        dateInput.max = sixMonthsLater.toISOString().split('T')[0];
+
+        // Language state and functions
+        let currentLang = 'bn'; // Default language is Bangla
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.body.classList.remove('en', 'bn');
+            document.body.classList.add(lang);
+            
+            // Update buttons
+            document.getElementById('en-btn').classList.toggle('active', lang === 'en');
+            document.getElementById('bn-btn').classList.toggle('active', lang === 'bn');
+            
+            // Update document title
+            document.title = lang === 'bn' ? 'ফিজিওথেরাপিস্ট নির্বাচন' : 'Physiotherapist Selection';
+
+            // Update select elements
+            document.querySelectorAll('select').forEach(select => {
+                // Store current value
+                const currentValue = select.value;
+
+                // Hide all options first
+                select.querySelectorAll('option').forEach(option => {
+                    const optionLang = option.getAttribute('data-lang');
+                    if (optionLang === lang) {
+                        option.style.display = 'block';
+                        option.style.visibility = 'visible';
+                        option.removeAttribute('hidden');
+                        option.disabled = false;
+                    } else {
+                        option.style.display = 'none';
+                        option.style.visibility = 'hidden';
+                        option.setAttribute('hidden', '');
+                        option.disabled = true;
+                    }
+                });
+
+                // Find matching option in new language
+                const matchingOption = Array.from(select.options).find(option => 
+                    option.value === currentValue && option.getAttribute('data-lang') === lang
+                );
+
+                // If matching option exists, select it
+                if (matchingOption) {
+                    select.value = currentValue;
+                } else {
+                    // Otherwise, select the first option in the current language
+                    const firstOption = Array.from(select.options).find(option => 
+                        option.getAttribute('data-lang') === lang
+                    );
+                    if (firstOption) {
+                        select.value = firstOption.value;
+                    }
+                }
+
+                // Force select element to update its display
+                select.dispatchEvent(new Event('change'));
+            });
+            
+            // Reload physiotherapists to update their content
+            loadPhysiotherapists();
+            
+            // Save preference
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Modified loadPhysiotherapists function
+        function loadPhysiotherapists(filter = {}, category = null) {
+            ['A', 'B', 'C'].forEach(cat => {
+                if (category && category !== cat) return;
+                
+                const container = document.querySelector(`#category${cat} .category-cards`);
+                if (!filter.append) container.innerHTML = '';
+
+                let filteredPTs = physiotherapists
+                    .filter(pt => (filter.location && filter.location !== 'all' ? pt.location === filter.location : true))
+                    .filter(pt => (filter.price && filter.price !== 'all' ? pt.price === filter.price : true))
+                    .filter(pt => (filter.gender && filter.gender !== 'all' ? pt.gender === filter.gender : true))
+                    .filter(pt => (filter.serviceType && filter.serviceType !== 'all' ? pt.serviceTypes.includes(filter.serviceType) : true))
+                    .filter(pt => pt.price === cat);
+
+                // Show only first 6 cards unless viewing all
+                if (!filter.viewAll) {
+                    filteredPTs = filteredPTs.slice(0, 6);
+                }
+
+                filteredPTs.forEach(pt => {
+                    container.innerHTML += `
+                        <div class="physiotherapist-card">
+                            <img src="${pt.image}" class="profile-image" alt="${pt.name}" />
+                            <div class="card-body">
+                                <h5 class="fw-bold text-center">${pt.name}</h5>
+                                <div class="info-row">
+                                    <span class="info-label">
+                                        <span data-lang="en">Location:</span>
+                                        <span data-lang="bn">অবস্থান:</span>
+                                    </span>
+                                    <span>${pt.location}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">
+                                        <span data-lang="en">Experience:</span>
+                                        <span data-lang="bn">অভিজ্ঞতা:</span>
+                                    </span>
+                                    <span>${pt.experience[currentLang]}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">
+                                        <span data-lang="en">Rate:</span>
+                                        <span data-lang="bn">রেট:</span>
+                                    </span>
+                                    <span>${pt.rate}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">
+                                        <span data-lang="en">Education:</span>
+                                        <span data-lang="bn">শিক্ষা:</span>
+                                    </span>
+                                    <span>${pt.education[currentLang]}</span>
+                                </div>
+                                <div class="specialized-fields">
+                                    <div class="info-label mb-2">
+                                        <span data-lang="en">Specialized in:</span>
+                                        <span data-lang="bn">বিশেষজ্ঞতা:</span>
+                                    </div>
+                                    <span data-lang="en">${pt.specializedFields.en.join(', ')}</span>
+                                    <span data-lang="bn">${pt.specializedFields.bn.join(', ')}</span>
+                                </div>
+                                <div class="certifications">
+                                    <div class="info-label mb-2">
+                                        <span data-lang="en">Certifications:</span>
+                                        <span data-lang="bn">সার্টিফিকেশন:</span>
+                                    </div>
+                                    <span data-lang="en">${pt.certifications.en.join(', ')}</span>
+                                    <span data-lang="bn">${pt.certifications.bn.join(', ')}</span>
+                                </div>
+                                <p class="description">
+                                    <span data-lang="en">${pt.description.en}</span>
+                                    <span data-lang="bn">${pt.description.bn}</span>
+                                </p>
+                                <a href="/HTML/productPayment.html" class="btn book-now-btn w-100" target="_blank">
+                                    <span data-lang="en">Book Now</span>
+                                    <span data-lang="bn">বুক করুন</span>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // Function to load more physiotherapists
+        function loadMore(category) {
+            loadPhysiotherapists({ viewAll: true }, category);
+        }
+
+        // Modified event listener for filter button
+        document.getElementById('filterButton').addEventListener('click', () => {
+            const location = document.getElementById('locationFilter').value;
+            const price = document.getElementById('priceFilter').value;
+            const gender = document.getElementById('genderFilter').value;
+            const serviceType = document.getElementById('serviceTypeFilter').value;
+            const date = document.getElementById('dateFilter').value;
+            const time = document.getElementById('timeFilter').value;
+
+            loadPhysiotherapists({ 
+                location, 
+                price, 
+                gender, 
+                serviceType,
+                date,
+                time
+            });
+        });
+
+        // Load preferred language and initialize content
+        document.addEventListener('DOMContentLoaded', function() {
+            const preferredLanguage = localStorage.getItem('preferred-language') || 'bn';
+            setLanguage(preferredLanguage);
+            loadPhysiotherapists();
+        });
+
+        // Add new function to show category
+        function showCategory(category) {
+            // Hide all category sections
+            document.querySelectorAll('.category-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Hide category boxes
+            document.querySelector('.category-boxes').style.display = 'none';
+            
+            // Show selected category section
+            document.getElementById(`category${category}`).classList.add('active');
+            
+            // Load all physiotherapists for this category
+            loadPhysiotherapists({ viewAll: true }, category);
+        }
+
+        // Add function to go back to categories
+        function backToCategories() {
+            document.querySelectorAll('.category-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelector('.category-boxes').style.display = 'grid';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurse Selection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Inter', sans-serif;
+        }
+    
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+    
+        .filters-sidebar {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .nurse-card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            min-height: 750px;
+            width: 100%;
+        }
+
+        .nurse-card:hover {
+            transform: scale(1.05);
+        }
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+        }
+        .book-now-btn {
+            background-color: #28a745;
+            color: white;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+        }
+        .book-now-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .category-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+            max-height: none;
+        }
+
+        /* Style for when View More is clicked */
+        .view-all .category-cards {
+            max-height: none;
+        }
+
+        /* Update the grid layout for mobile responsiveness */
+        @media (max-width: 1200px) {
+            .category-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .category-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .view-more-btn {
+            background: linear-gradient(45deg, #2193b0, #6dd5ed);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .view-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(45deg, #1c7a94, #5bb9d4);
+        }
+
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 5px;
+        }
+
+        .info-label {
+            font-weight: 700;
+            min-width: 100px;
+            color: #2d3748;
+            flex-shrink: 0;
+        }
+
+        .specialized-fields, 
+        .certifications {
+            background-color: #f7fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .specialized-fields .info-label,
+        .certifications .info-label {
+            font-weight: 700;
+            color: #2d3748;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+
+        /* Make text content wrap properly */
+        .card-body span,
+        .specialized-fields,
+        .certifications,
+        .description {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Left Sidebar with Filters -->
+            <div class="col-md-3">
+                <div class="filters-sidebar">
+                    <h3>Filters</h3>
+                <select id="locationFilter" class="form-select">
+                    <option value="all">All Locations</option>
+                    <option value="New York">New York</option>
+                    <option value="Chicago">Chicago</option>
+                    <option value="Los Angeles">Los Angeles</option>
+                </select>
+
+                <select id="priceFilter" class="form-select">
+                    <option value="all">All Categories</option>
+                    <option value="A">Category A</option>
+                    <option value="B">Category B</option>
+                    <option value="C">Category C</option>
+                </select>
+
+                <select id="genderFilter" class="form-select">
+                    <option value="all">All Genders</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+
+                    <select id="serviceTypeFilter" class="form-select">
+                        <option value="all">All Service Types</option>
+                        <option value="in-hospital">In-Hospital</option>
+                        <option value="home">Home Care</option>
+                    </select>
+
+                    <input type="date" id="dateFilter" class="form-control" min="" max="">
+
+                    <select id="timeFilter" class="form-select">
+                        <option value="">Select Time</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="14:00">02:00 PM</option>
+                        <option value="15:00">03:00 PM</option>
+                        <option value="16:00">04:00 PM</option>
+                        <option value="17:00">05:00 PM</option>
+                    </select>
+
+                    <button id="filterButton" class="btn btn-primary w-100">Apply Filters</button>
+            </div>
+            </div>
+
+            <!-- Right Side Content -->
+            <div class="col-md-9 main-content">
+                <h1 class="mb-4"><b>Nurses</b></h1>
+                
+                <div id="categoryA" class="mb-4">
+                    <h2><b><u>Category A</u></b></h2>
+                    <div class="category-description">
+                        Senior nurses with 10+ years of experience. Specialized in critical care, 
+                        emergency nursing, and complex medical conditions.
+        </div>
+                    <div class="category-cards"></div>
+                    <button class="view-more-btn" onclick="loadMore('A')">View More</button>
+        </div>
+
+        <div id="categoryB" class="mb-4">
+                    <h2><b><u>Category B</u></b></h2>
+                    <div class="category-description">
+                        Experienced nurses (5-10 years) with expertise in general nursing care 
+                        and specialized medical conditions.
+                    </div>
+                    <div class="category-cards"></div>
+                    <button class="view-more-btn" onclick="loadMore('B')">View More</button>
+        </div>
+
+        <div id="categoryC" class="mb-4">
+                    <h2><b><u>Category C</u></b></h2>
+                    <div class="category-description">
+                        Entry-level nurses (2-5 years) providing basic nursing care and 
+                        assistance with daily medical needs.
+                    </div>
+                    <div class="category-cards"></div>
+                    <button class="view-more-btn" onclick="loadMore('C')">View More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for nurses
+        const nurses = [
+            {
+                name: 'Nurse Sarah Wilson',
+                location: 'New York',
+                price: 'A',
+                rate: '$90/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: '12 years',
+                specializedFields: ['Critical Care', 'Emergency Nursing', 'Cardiac Care'],
+                serviceTypes: ['in-hospital', 'home'],
+                description: 'Experienced in critical care and emergency situations with a focus on cardiac patients.',
+                education: 'BSN from NYU',
+                certifications: ['Critical Care Certified', 'ACLS Certified']
+            },
+            {
+                name: 'Nurse Michael Chen',
+                location: 'Los Angeles',
+                price: 'A',
+                rate: '$95/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: '15 years',
+                specializedFields: ['ICU', 'Trauma Care', 'Emergency Medicine'],
+                serviceTypes: ['in-hospital'],
+                description: 'Specialized in intensive care and trauma with extensive emergency department experience.',
+                education: 'BSN from UCLA',
+                certifications: ['ICU Certified', 'Trauma Care Specialist']
+            },
+            {
+                name: 'Nurse Emma Thompson',
+                location: 'Chicago',
+                price: 'B',
+                rate: '$75/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: '8 years',
+                specializedFields: ['Pediatric Care', 'Family Health'],
+                serviceTypes: ['home', 'in-hospital'],
+                description: 'Dedicated pediatric nurse with expertise in family-centered care.',
+                education: 'BSN from UIC',
+                certifications: ['Pediatric Nursing Certified']
+            },
+            {
+                name: 'Nurse James Rodriguez',
+                location: 'New York',
+                price: 'B',
+                rate: '$80/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: '7 years',
+                specializedFields: ['Surgical Care', 'Post-operative Care'],
+                serviceTypes: ['in-hospital'],
+                description: 'Experienced in surgical and post-operative patient care.',
+                education: 'BSN from Columbia',
+                certifications: ['Surgical Nursing Certified']
+            },
+            {
+                name: 'Nurse Lisa Park',
+                location: 'Los Angeles',
+                price: 'C',
+                rate: '$65/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: '4 years',
+                specializedFields: ['General Nursing', 'Elder Care'],
+                serviceTypes: ['home'],
+                description: 'Compassionate nurse specializing in elderly care and general nursing.',
+                education: 'BSN from USC',
+                certifications: ['Geriatric Care Certified']
+            },
+            {
+                name: 'Nurse Robert Miller',
+                location: 'Chicago',
+                price: 'A',
+                rate: '$92/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: '13 years',
+                specializedFields: ['Emergency Care', 'Acute Care'],
+                serviceTypes: ['in-hospital', 'home'],
+                description: 'Expert in emergency and acute care situations.',
+                education: 'BSN from Northwestern',
+                certifications: ['Emergency Nursing Certified', 'ACLS Certified']
+            },
+            {
+                name: 'Nurse Maria Garcia',
+                location: 'New York',
+                price: 'B',
+                rate: '$78/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: '6 years',
+                specializedFields: ['Maternal Health', 'Women\'s Health'],
+                serviceTypes: ['home', 'in-hospital'],
+                description: 'Specialized in maternal and women\'s health care.',
+                education: 'BSN from NYU',
+                certifications: ['Maternal Health Certified']
+            },
+            {
+                name: 'Nurse David Kim',
+                location: 'Los Angeles',
+                price: 'C',
+                rate: '$60/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: '3 years',
+                specializedFields: ['General Care', 'Rehabilitation'],
+                serviceTypes: ['home'],
+                description: 'Focused on rehabilitation and general patient care.',
+                education: 'BSN from CSULB',
+                certifications: ['Basic Life Support Certified']
+            },
+            {
+                name: 'Nurse Jennifer Lee',
+                location: 'Chicago',
+                price: 'A',
+                rate: '$88/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: '11 years',
+                specializedFields: ['Oncology', 'Palliative Care'],
+                serviceTypes: ['in-hospital', 'home'],
+                description: 'Specialized in oncology and palliative care with a compassionate approach.',
+                education: 'BSN from University of Chicago',
+                certifications: ['Oncology Certified Nurse', 'Palliative Care Certified']
+            },
+            {
+                name: 'Nurse William Turner',
+                location: 'New York',
+                price: 'B',
+                rate: '$82/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: '9 years',
+                specializedFields: ['Mental Health', 'Psychiatric Care'],
+                serviceTypes: ['in-hospital'],
+                description: 'Expert in mental health nursing and psychiatric care.',
+                education: 'BSN from Columbia University',
+                certifications: ['Psychiatric Mental Health Nurse']
+            },
+            {
+                name: 'Nurse Sophie Martinez',
+                location: 'Los Angeles',
+                price: 'C',
+                rate: '$70/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: '4 years',
+                specializedFields: ['Pediatric Care', 'Newborn Care'],
+                serviceTypes: ['home'],
+                description: 'Dedicated to providing quality care for children and newborns.',
+                education: 'BSN from UCLA',
+                certifications: ['Pediatric Nurse Certified']
+            },
+            {
+                name: 'Nurse Thomas Anderson',
+                location: 'Chicago',
+                price: 'A',
+                rate: '$94/hr',
+                gender: 'male',
+                image: 'https://via.placeholder.com/150',
+                experience: '14 years',
+                specializedFields: ['Critical Care', 'Cardiology'],
+                serviceTypes: ['in-hospital'],
+                description: 'Extensive experience in cardiac care and critical care units.',
+                education: 'BSN from Northwestern',
+                certifications: ['Critical Care Certified', 'Cardiac Care Specialist']
+            },
+            {
+                name: 'Nurse Rachel Chen',
+                location: 'New York',
+                price: 'B',
+                rate: '$77/hr',
+                gender: 'female',
+                image: 'https://via.placeholder.com/150',
+                experience: '7 years',
+                specializedFields: ['Rehabilitation', 'Physical Therapy'],
+                serviceTypes: ['home', 'in-hospital'],
+                description: 'Focused on rehabilitation nursing and recovery care.',
+                education: 'BSN from NYU',
+                certifications: ['Rehabilitation Nurse Certified']
+            }
+        ];
+
+                // Set date input constraints (today to 6 months ahead)
+                const dateInput = document.getElementById('dateFilter');
+        const today = new Date();
+        const sixMonthsLater = new Date();
+        sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
+
+        dateInput.min = today.toISOString().split('T')[0];
+        dateInput.max = sixMonthsLater.toISOString().split('T')[0];
+
+        // Modified loadPhysiotherapists function
+        function loadNurses(filter = {}, category = null) {
+            ['A', 'B', 'C'].forEach(cat => {
+                if (category && category !== cat) return;
+                
+                const container = document.querySelector(`#category${cat} .category-cards`);
+                if (!filter.append) container.innerHTML = '';
+
+                let filteredNurses = nurses
+                    .filter(Nrs => (filter.location && filter.location !== 'all' ? Nrs.location === filter.location : true))
+                    .filter(Nrs => (filter.price && filter.price !== 'all' ? Nrs.price === filter.price : true))
+                    .filter(Nrs => (filter.gender && filter.gender !== 'all' ? Nrs.gender === filter.gender : true))
+                    .filter(Nrs => (filter.serviceType && filter.serviceType !== 'all' ? Nrs.serviceTypes.includes(filter.serviceType) : true))
+                    .filter(Nrs => Nrs.price === cat);
+
+                // Show only first 6 cards unless viewing all
+                if (!filter.viewAll) {
+                    filteredNurses = filteredNurses.slice(0, 6);
+                }
+
+                filteredNurses.forEach(Nrs => {
+                        container.innerHTML += `
+                        <div class="nurse-card">
+                            <img src="${Nrs.image}" class="profile-image" alt="${Nrs.name}" />
+                                    <div class="card-body">
+                                <h5 class="fw-bold text-center mb-3">${Nrs.name}</h5>
+                                <div class="info-row">
+                                    <span class="info-label">Location:</span>
+                                    <span>${Nrs.location}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Experience:</span>
+                                    <span>${Nrs.experience}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Rate:</span>
+                                    <span>${Nrs.rate}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Education:</span>
+                                    <span>${Nrs.education}</span>
+                                </div>
+                                <div class="specialized-fields">
+                                    <div class="info-label">Specialized in:</div>
+                                    ${Nrs.specializedFields.join(', ')}
+                                    </div>
+                                <div class="certifications">
+                                    <div class="info-label">Certifications:</div>
+                                    ${Nrs.certifications.join(', ')}
+                                </div>
+                                <p class="description">${Nrs.description}</p>
+                                <a href="/HTML/productPayment.html" class="btn book-now-btn" target="_blank">Book Now</a>
+                                </div>
+                            </div>
+                        `;
+                    });
+            });
+        }
+
+        // Function to load more physiotherapists
+        function loadMore(category) {
+            const categorySection = document.getElementById(`category${category}`);
+            categorySection.classList.add('view-all');
+            loadNurses({ viewAll: true }, category);
+        }
+
+        // Modified event listener for filter button
+        document.getElementById('filterButton').addEventListener('click', () => {
+            const location = document.getElementById('locationFilter').value;
+            const price = document.getElementById('priceFilter').value;
+            const gender = document.getElementById('genderFilter').value;
+            const serviceType = document.getElementById('serviceTypeFilter').value;
+            const date = document.getElementById('dateFilter').value;
+            const time = document.getElementById('timeFilter').value;
+
+            loadNurses({ 
+                location, 
+                price, 
+                gender, 
+                serviceType,
+                date,
+                time
+            });
+        });
+
+        // Initial load
+        loadNurses();
+    </script>
+</body>
+</html>

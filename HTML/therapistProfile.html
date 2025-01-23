@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physiotherapist/Nurse Profile</title>
+    <link rel="stylesheet" href="/CSS/therapistProfile.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card profile-card shadow-lg">
+            <div class="card-header text-center">
+                <h2>Physiotherapist/Nurse Profile</h2>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-3 text-center">
+                        <img src="/public/profile.jpg" alt="Profile Image" class="profile-img rounded-circle mb-3">
+                        <p><strong>Jane Smith</strong></p>
+                    </div>
+                    <div class="col-md-9">
+                        <h4>General Information</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">Full Name: Jane Smith</li>
+                            <li class="list-group-item">Date of Birth: 02/02/1985</li>
+                            <li class="list-group-item">Email: janesmith@example.com</li>
+                            <li class="list-group-item">Mobile Number: +1234567890</li>
+                            <li class="list-group-item">National ID: 987654321</li>
+                            <li class="list-group-item">Price per Session: $50</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h4>Service Providing Time</h4>
+                    <p>Monday - Friday: 9 AM - 5 PM</p>
+                </div>
+
+                <div class="info-section">
+                    <h4>Previously Provided Services</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">Physiotherapy - 01/05/2024</li>
+                        <li class="list-group-item">Massage Therapy - 20/04/2024</li>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h4>Transaction History</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">Received $150 on 01/05/2024</li>
+                        <li class="list-group-item">Received $50 on 20/04/2024</li>
+                        <a href="paymentHistory.html" class="btn btn-outline-primary" target="_blank">See More</a>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h4>Addresses</h4>
+                    <p><strong>Present Address:</strong> House No 12, Road No 5, Downtown</p>
+                    <p><strong>Permanent Address:</strong> House No 45, Village Road, Countryside</p>
+                </div>
+
+                <div class="info-section">
+                    <h4>Uploaded Certificates</h4>
+                    <div class="certificate-images">
+                        <img src="/public/cert1.jpeg" alt="Certificate 1">
+                        <img src="/public/cert2.jpg" alt="Certificate 2">
+                        <img src="/public/cert3.jpeg" alt="Certificate 3">
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a href="therapistDashboard.html" target="_blank" class="btn btn-warning">Edit Profile</a>
+                <a href="logout.html" class="btn btn-danger ms-2">Logout</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Function to toggle language
+        function toggleLanguage(lang) {
+            const translations = {
+                'en': {
+                    'pricePerSession': 'Price per Session: $50',
+                    'serviceTime': 'Service Providing Time',
+                    'mondayToFriday': 'Monday - Friday: 9 AM - 5 PM',
+                    'previousServices': 'Previously Provided Services',
+                    'physiotherapy': 'Physiotherapy',
+                    'massageTherapy': 'Massage Therapy',
+                    'transactionHistory': 'Transaction History',
+                    'received': 'Received',
+                    'seeMore': 'See More',
+                    'addresses': 'Addresses',
+                    'presentAddress': 'Present Address',
+                    'permanentAddress': 'Permanent Address',
+                    'certificates': 'Uploaded Certificates',
+                    'editProfile': 'Edit Profile',
+                    'logout': 'Logout'
+                },
+                'bn': {
+                    'pricePerSession': 'প্রতি সেশনের মূল্য: ৫০ ডলার',
+                    'serviceTime': 'সেবা প্রদানের সময়',
+                    'mondayToFriday': 'সোমবার - শুক্রবার: সকাল ৯টা - বিকাল ৫টা',
+                    'previousServices': 'পূর্ববর্তী প্রদত্ত সেবাসমূহ',
+                    'physiotherapy': 'ফিজিওথেরাপি',
+                    'massageTherapy': 'ম্যাসাজ থেরাপি',
+                    'transactionHistory': 'লেনদেনের ইতিহাস',
+                    'received': 'প্রাপ্ত',
+                    'seeMore': 'আরও দেখুন',
+                    'addresses': 'ঠিকানাসমূহ',
+                    'presentAddress': 'বর্তমান ঠিকানা',
+                    'permanentAddress': 'স্থায়ী ঠিকানা',
+                    'certificates': 'আপলোড করা সার্টিফিকেটসমূহ',
+                    'editProfile': 'প্রোফাইল সম্পাদনা',
+                    'logout': 'লগআউট'
+                }
+            };
+    
+            // Update all text content based on selected language
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+    
+            // Store language preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+    
+        // Add language toggle buttons to the top of the page
+        document.addEventListener('DOMContentLoaded', () => {
+            const languageToggle = document.createElement('div');
+            languageToggle.className = 'language-toggle text-end mb-3';
+            languageToggle.innerHTML = `
+                <button onclick="toggleLanguage('bn')" class="btn btn-sm btn-outline-secondary me-2">বাংলা</button>
+                <button onclick="toggleLanguage('en')" class="btn btn-sm btn-outline-secondary">English</button>
+            `;
+            document.querySelector('.container').insertBefore(languageToggle, document.querySelector('.card'));
+    
+            // Set default language to Bangla
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'bn';
+            toggleLanguage(savedLanguage);
+        });
+    </script>
+    
+    <!-- Update all text elements with data-translate attributes -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add data-translate attributes to all translatable elements
+            const elements = {
+                'pricePerSession': document.querySelector('.list-group-item:contains("Price per Session")'),
+                'serviceTime': document.querySelector('h4:contains("Service Providing Time")'),
+                'mondayToFriday': document.querySelector('p:contains("Monday - Friday")'),
+                'previousServices': document.querySelector('h4:contains("Previously Provided Services")'),
+                'transactionHistory': document.querySelector('h4:contains("Transaction History")'),
+                'addresses': document.querySelector('h4:contains("Addresses")'),
+                'certificates': document.querySelector('h4:contains("Uploaded Certificates")'),
+                'editProfile': document.querySelector('.btn-warning'),
+                'logout': document.querySelector('.btn-danger')
+            };
+    
+            for (const [key, element] of Object.entries(elements)) {
+                if (element) {
+                    element.setAttribute('data-translate', key);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+

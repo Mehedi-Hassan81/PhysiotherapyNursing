@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লগইন</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-size: 18px;
+        }
+        .card {
+            border: none;
+            padding: 3rem !important;
+        }
+        .btn-social {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+        }
+        .btn-social i {
+            font-size: 24px;
+        }
+        .tab-button {
+            border: none;
+            border-bottom: 2px solid transparent;
+            background: none;
+            padding: 15px;
+            font-size: 1.5rem;
+        }
+        .tab-button.active {
+            border-color: #007bff;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .hidden {
+            display: none;
+        }
+        .language-switcher {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        .language-btn {
+            padding: 10px 20px;
+            font-size: 1.3rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .language-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        /* New styles for bigger forms */
+        .form-control {
+            padding: 1rem 1.25rem;
+            font-size: 1.4rem;
+        }
+        .form-label {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+        .btn-primary {
+            padding: 1rem;
+            font-size: 1.4rem;
+        }
+        h2 {
+            font-size: 2.75rem !important;
+            margin-bottom: 2.5rem !important;
+        }
+        .text-secondary {
+            font-size: 1.3rem !important;
+        }
+        a {
+            font-size: 1.3rem;
+        }
+        /* Add more spacing between form elements */
+        .mb-3 {
+            margin-bottom: 1.5rem !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="btn language-btn active" onclick="setLanguage('bn')" id="bn-btn">বাংলা</button>
+        <button class="btn language-btn" onclick="setLanguage('en')" id="en-btn">English</button>
+    </div>
+
+    <div class="container vh-100 d-flex justify-content-center align-items-center">
+        <div class="card shadow p-4" style="width: 100%; max-width: 600px;">
+            <!-- Tab Buttons -->
+            <div class="d-flex justify-content-between mb-4">
+                <button class="tab-button flex-grow-1 text-center active" id="patient-tab" data-bn="রোগী" data-en="Patient">রোগী</button>
+                <button class="tab-button flex-grow-1 text-center" id="therapist-tab" data-bn="থেরাপিস্ট/নার্স" data-en="Therapist/Nurse">থেরাপিস্ট/নার্স</button>
+            </div>
+            <!-- Patient Login Form -->
+            <div id="patient-form">
+                <h2 class="text-center mb-4 text-primary fw-bold" data-bn="রোগী লগইন" data-en="Patient Login">রোগী লগইন</h2>
+                <form onsubmit="return handlePatientLogin(event)">
+                    <div class="mb-3">
+                        <label for="patient-email" class="form-label fw-semibold" data-bn="ইমেইল ঠিকানা" data-en="Email Address">ইমেইল ঠিকানা</label>
+                        <input type="email" id="patient-email" class="form-control" data-bn-placeholder="আপনার ইমেইল লিখুন" data-en-placeholder="Enter your email" placeholder="আপনার ইমেইল লিখুন" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="patient-password" class="form-label fw-semibold" data-bn="পাসওয়ার্ড" data-en="Password">পাসওয়ার্ড</label>
+                        <input type="password" id="patient-password" class="form-control" data-bn-placeholder="আপনার পাসওয়ার্ড লিখুন" data-en-placeholder="Enter your password" placeholder="আপনার পাসওয়ার্ড লিখুন" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mb-3" data-bn="লগইন" data-en="Login">লগইন</button>
+                    <div class="text-end">
+                        <a href="reset-patient-password.html" class="text-decoration-none text-primary fw-semibold" data-bn="পাসওয়ার্ড ভুলে গেছেন?" data-en="Forgot Password?">পাসওয়ার্ড ভুলে গেছেন?</a>
+                    </div>
+                </form>
+                <!-- Social Media Login Section -->
+                <div class="text-center my-3">
+                    <p class="mb-2 text-secondary fw-semibold" data-bn="অথবা লগইন করুন" data-en="Or Login With">অথবা লগইন করুন</p>
+                </div>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#" class="btn btn-outline-primary btn-social d-flex align-items-center justify-content-center">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-info btn-social d-flex align-items-center justify-content-center">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-danger btn-social d-flex align-items-center justify-content-center">
+                        <i class="fab fa-google"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- Therapist/Nurse Login Form -->
+            <div id="therapist-form" class="hidden">
+                <h2 class="text-center mb-4 text-primary fw-bold" data-bn="থেরাপিস্ট/নার্স লগইন" data-en="Therapist/Nurse Login">থেরাপিস্ট/নার্স লগইন</h2>
+                <form onsubmit="return handleTherapistLogin(event)">
+                    <div class="mb-3">
+                        <label for="therapist-email" class="form-label fw-semibold" data-bn="ইমেইল ঠিকানা" data-en="Email Address">ইমেইল ঠিকানা</label>
+                        <input type="email" id="therapist-email" class="form-control" data-bn-placeholder="আপনার ইমেইল লিখুন" data-en-placeholder="Enter your email" placeholder="আপনার ইমেইল লিখুন" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="therapist-password" class="form-label fw-semibold" data-bn="পাসওয়ার্ড" data-en="Password">পাসওয়ার্ড</label>
+                        <input type="password" id="therapist-password" class="form-control" data-bn-placeholder="আপনার পাসওয়ার্ড লিখুন" data-en-placeholder="Enter your password" placeholder="আপনার পাসওয়ার্ড লিখুন" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mb-3" data-bn="লগইন" data-en="Login">লগইন</button>
+                    <div class="text-end">
+                        <a href="therapistReset.html" class="text-decoration-none text-primary fw-semibold" data-bn="পাসওয়ার্ড ভুলে গেছেন?" data-en="Forgot Password?">পাসওয়ার্ড ভুলে গেছেন?</a>
+                    </div>
+                </form>
+                <!-- Social Media Login Section -->
+                <div class="text-center my-3">
+                    <p class="mb-2 text-secondary fw-semibold" data-bn="অথবা লগইন করুন" data-en="Or Login With">অথবা লগইন করুন</p>
+                </div>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#" class="btn btn-outline-primary btn-social d-flex align-items-center justify-content-center">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-info btn-social d-flex align-items-center justify-content-center">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-danger btn-social d-flex align-items-center justify-content-center">
+                        <i class="fab fa-google"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab buttons
+        const patientTab = document.getElementById('patient-tab');
+        const therapistTab = document.getElementById('therapist-tab');
+        const adminTab = document.getElementById('admin-tab');
+        const patientForm = document.getElementById('patient-form');
+        const therapistForm = document.getElementById('therapist-form');
+        const adminForm = document.getElementById('admin-form');
+
+        // Language state
+        let currentLang = 'bn'; // Default language is Bangla
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            updateLanguage();
+            // Update button states
+            document.getElementById('bn-btn').classList.toggle('active', lang === 'bn');
+            document.getElementById('en-btn').classList.toggle('active', lang === 'en');
+        }
+
+        function updateLanguage() {
+            // Update all elements with data-bn and data-en attributes
+            document.querySelectorAll('[data-bn][data-en]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${currentLang}`);
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-bn-placeholder][data-en-placeholder]').forEach(element => {
+                element.placeholder = element.getAttribute(`data-${currentLang}-placeholder`);
+            });
+
+            // Update document title
+            document.title = currentLang === 'bn' ? 'লগইন' : 'Login';
+        }
+
+        // Tab switching logic
+        patientTab.addEventListener('click', () => {
+            patientTab.classList.add('active');
+            therapistTab.classList.remove('active');
+            if (adminTab) adminTab.classList.remove('active');
+            patientForm.classList.remove('hidden');
+            therapistForm.classList.add('hidden');
+            if (adminForm) adminForm.classList.add('hidden');
+            // Update form title based on current language
+            updateLanguage();
+        });
+
+        therapistTab.addEventListener('click', () => {
+            therapistTab.classList.add('active');
+            patientTab.classList.remove('active');
+            if (adminTab) adminTab.classList.remove('active');
+            therapistForm.classList.remove('hidden');
+            patientForm.classList.add('hidden');
+            if (adminForm) adminForm.classList.add('hidden');
+            // Update form title based on current language
+            updateLanguage();
+        });
+
+
+        // Login handlers
+        function handlePatientLogin(event) {
+            event.preventDefault();
+            window.location.href = 'patientProfile.html';
+            return false;
+        }
+
+        function handleTherapistLogin(event) {
+            event.preventDefault();
+            window.location.href = 'therapistProfile.html';
+            return false;
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            window.location.href = 'adminDashboard.html';
+            return false;
+        }
+
+        // Initialize language on page load
+        updateLanguage();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

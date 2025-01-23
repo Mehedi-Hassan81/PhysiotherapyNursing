@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduling Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .time-slot-card {
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s;
+            flex: 1;
+            min-width: 120px;
+        }
+        .time-slot-card:hover {
+            transform: scale(1.05);
+            background-color: #f0f8ff;
+        }
+        .time-slot-card.active {
+            border-color: #28a745;
+            background-color: #e9ffe6;
+        }
+        .time-slot-details {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .btn-confirm {
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        .btn-confirm:hover {
+            background: linear-gradient(90deg, #0056b3, #003d80);
+            color: #fff;
+        }
+        h4 {
+            color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Schedule Appointment</h1>
+
+        <!-- Provider Details -->
+        <div class="card">
+            <div class="card-body">
+                <h4 id="providerName" class="text-primary">Provider Name</h4>
+                <p><strong>Location:</strong> <span id="providerLocation">Location</span></p>
+                <p><strong>Rate:</strong> <span id="providerRate">$0/hr</span></p>
+            </div>
+        </div>
+
+        <!-- Patient Details -->
+        <div class="card">
+            <div class="card-body">
+                <h4>Patient Details</h4>
+                <p><strong>Full Name:</strong> John Doe</p>
+                <p><strong>Email:</strong> johndoe@example.com</p>
+                <p><strong>Mobile Number:</strong> +1234567890</p>
+            </div>
+        </div>
+
+        <!-- Service Options -->
+        <div class="card">
+            <div class="card-body">
+                <h4>Service Options</h4>
+                <label for="serviceOption" class="form-label">Choose Service Type</label>
+                <select id="serviceOption" class="form-select mb-3">
+                    <option value="in-chamber">In Chamber</option>
+                    <option value="home-service">Home Service</option>
+                </select>
+
+                <h4>Select Date</h4>
+                <input type="date" id="datePicker" class="form-control" min="" max="" onchange="loadTimeSlots()">
+            </div>
+        </div>
+
+        <!-- Time Slots -->
+        <div id="timeSlotsContainer" class="card">
+            <div class="card-body">
+                <h4>Available Time Slots</h4>
+                <div id="timeSlots" class="d-flex flex-wrap gap-3 justify-content-start"></div>
+            </div>
+        </div>
+
+        <!-- Confirm Button -->
+        <button id="confirmButton" class="btn btn-confirm w-100" disabled>Proceed to Payment</button>
+    </div>
+
+    <script>
+        // Dynamically passed provider details
+        const providerDetails = {
+            name: "Nurse Alice",
+            location: "New York",
+            rate: "$120/hr"
+        };
+
+        // Populate provider details
+        document.getElementById('providerName').innerText = providerDetails.name;
+        document.getElementById('providerLocation').innerText = providerDetails.location;
+        document.getElementById('providerRate').innerText = providerDetails.rate;
+
+        // Set date range for 2 months
+        const today = new Date();
+        const maxDate = new Date();
+        maxDate.setMonth(today.getMonth() + 2);
+        document.getElementById('datePicker').setAttribute('min', today.toISOString().split('T')[0]);
+        document.getElementById('datePicker').setAttribute('max', maxDate.toISOString().split('T')[0]);
+
+        // Sample time slots
+        const timeSlots = [
+            { time: "9:00 AM", duration: "30 mins", availability: "Available" },
+            { time: "10:00 AM", duration: "45 mins", availability: "Available" },
+            { time: "11:00 AM", duration: "1 hr", availability: "Available" },
+            { time: "1:00 PM", duration: "30 mins", availability: "Available" },
+            { time: "2:00 PM", duration: "45 mins", availability: "Limited" },
+            { time: "3:00 PM", duration: "1 hr", availability: "Available" },
+            { time: "5:00 PM", duration: "30 mins", availability: "Limited" }
+        ];
+
+        // Load time slots
+        function loadTimeSlots() {
+            const container = document.getElementById('timeSlots');
+            container.innerHTML = '';
+            timeSlots.forEach(slot => {
+                const card = document.createElement('div');
+                card.classList.add('time-slot-card');
+                card.innerHTML = `
+                    <h5>${slot.time}</h5>
+                    <p class="time-slot-details">${slot.duration} - ${slot.availability}</p>
+                `;
+                card.onclick = () => selectTimeSlot(card, slot.time);
+                container.appendChild(card);
+            });
+        }
+
+        // Highlight selected time slot
+        let selectedSlot = null;
+        function selectTimeSlot(card, time) {
+            if (selectedSlot) {
+                selectedSlot.classList.remove('active');
+            }
+            card.classList.add('active');
+            selectedSlot = card;
+            document.getElementById('confirmButton').disabled = false;
+            document.getElementById('confirmButton').setAttribute('data-slot', time);
+        }
+
+        // Redirect to Payment Page
+        document.getElementById('confirmButton').addEventListener('click', () => {
+            const selectedDate = document.getElementById('datePicker').value;
+            const selectedService = document.getElementById('serviceOption').value;
+            const selectedTime = document.getElementById('confirmButton').getAttribute('data-slot');
+
+            if (!selectedDate || !selectedService || !selectedTime) {
+                alert("Please select all options before proceeding.");
+                return;
+            }
+
+            const paymentURL = `/HTML/payment.html?provider=${encodeURIComponent(providerDetails.name)}&location=${encodeURIComponent(providerDetails.location)}&rate=${encodeURIComponent(providerDetails.rate)}&date=${selectedDate}&time=${selectedTime}&service=${selectedService}`;
+            window.open(paymentURL, '_blank');
+        });
+    </script>
+</body>
+</html>

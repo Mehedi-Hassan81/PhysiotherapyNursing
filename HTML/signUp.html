@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-size: 1.25rem;
+        }
+        .form-container {
+            display: none;
+        }
+        .form-container.active {
+            display: block;
+        }
+        .option-buttons button {
+            margin: 5px;
+            font-size: 1.5rem;
+        }
+        label, input, select, button, p {
+            font-size: 1.25rem;
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="btn btn-secondary" id="bn-btn" onclick="setLanguage('bn')">বাংলা</button>
+        <button class="btn btn-secondary" id="en-btn" onclick="setLanguage('en')">English</button>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="text-center mb-4">
+                    <h2 id="signup-option-title">সাইনআপ অপশন নির্বাচন করুন</h2>
+                    <div class="option-buttons">
+                        <button class="btn btn-primary" onclick="showForm('patient')">রোগী</button>
+                        <button class="btn btn-secondary" onclick="showForm('therapist')">থেরাপিস্ট/নার্স</button>
+                    </div>
+                </div>
+
+                <!-- Patient Form -->
+                <div id="patientForm" class="form-container active">
+                    <div class="p-4 shadow rounded bg-white">
+                        <h3 class="text-center mb-4" id="patient-signup-title">রোগীর সাইনআপ</h3>
+                        <form method="POST" action="patientSignup.php" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="patientFirstName">প্রথম নাম</label>
+                                <input type="text" class="form-control" id="patientFirstName" name="first_name" placeholder="আপনার প্রথম নাম লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientLastName">শেষ নাম</label>
+                                <input type="text" class="form-control" id="patientLastName" name="last_name" placeholder="আপনার শেষ নাম লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientDOB">জন্ম তারিখ</label>
+                                <input type="date" class="form-control" id="patientDOB" name="dob" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientGender">লিঙ্গ</label>
+                                <select class="form-select" id="patientGender" name="gender" required>
+                                    <option value="" disabled selected>লিঙ্গ নির্বাচন করুন</option>
+                                    <option value="male">পুরুষ</option>
+                                    <option value="female">মহিলা</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientMobile">মোবাইল নম্বর</label>
+                                <input type="tel" class="form-control" id="patientMobile" name="mobile" placeholder="আপনার ফোন নম্বর লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientEmail">ইমেইল ঠিকানা</label>
+                                <input type="email" class="form-control" id="patientEmail" name="email" placeholder="আপনার ইমেইল লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientNID">জাতীয় পরিচয়পত্র নম্বর</label>
+                                <input type="text" class="form-control" id="patientNID" name="nid" placeholder="আপনার NID নম্বর লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientProfilePic">প্রোফাইল ছবি</label>
+                                <input type="file" class="form-control" id="patientProfilePic" name="profile_pic" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientPassword">পাসওয়ার্ড</label>
+                                <input type="password" class="form-control" id="patientPassword" name="password" placeholder="আপনার পাসওয়ার্ড লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="patientConfirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+                                <input type="password" class="form-control" id="patientConfirmPassword" name="confirm_password" placeholder="আপনার পাসওয়ার্ড নিশ্চিত করুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <div class="g-recaptcha" data-sitekey="your-site-key"></div>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary w-100"onclick="window.location.href='patientProfile.html'">রেজিস্ট্রেশন করুন</button>
+                            </div>
+                            <div class="text-center">
+                                <p>ইতিমধ্যে একটি অ্যাকাউন্ট আছে? <a href="/login">এখানে লগইন করুন</a></p>
+                            </div>
+                        </form>
+                        <div class="text-center mb-3">
+                            <p>অথবা</p>
+                            <div class="social-icons">
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-google"></i> Google</a>
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook"></i> Facebook</a>
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-twitter"></i> Twitter</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Therapist/Nurse Form -->
+                <div id="therapistForm" class="form-container">
+                    <div class="p-4 shadow rounded bg-white">
+                        <h3 class="text-center mb-4" id="therapist-signup-title">থেরাপিস্ট/নার্স সাইনআপ</h3>
+                        <form method="POST" action="therapistSignup.php" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="therapistFirstName">প্রথম নাম</label>
+                                <input type="text" class="form-control" id="therapistFirstName" name="first_name" placeholder="আপনার প্রথম নাম লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistLastName">শেষ নাম</label>
+                                <input type="text" class="form-control" id="therapistLastName" name="last_name" placeholder="আপনার শেষ নাম লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistDOB">জন্ম তারিখ</label>
+                                <input type="date" class="form-control" id="therapistDOB" name="dob" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistGender">লিঙ্গ</label>
+                                <select class="form-select" id="therapistGender" name="gender" required>
+                                    <option value="" disabled selected>লিঙ্গ নির্বাচন করুন</option>
+                                    <option value="male">পুরুষ</option>
+                                    <option value="female">মহিলা</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistMobile">মোবাইল নম্বর</label>
+                                <input type="tel" class="form-control" id="therapistMobile" name="mobile" placeholder="আপনার ফোন নম্বর লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistEmail">ইমেইল ঠিকানা</label>
+                                <input type="email" class="form-control" id="therapistEmail" name="email" placeholder="আপনার ইমেইল লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistNID">জাতীয় পরিচয়পত্র নম্বর</label>
+                                <input type="text" class="form-control" id="therapistNID" name="nid" placeholder="আপনার NID নম্বর লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistLicense">প্রফেশনাল লাইসেন্স নম্বর</label>
+                                <input type="text" class="form-control" id="therapistLicense" name="license_number" placeholder="আপনার লাইসেন্স নম্বর লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistServiceType">সেবা ধরণ</label>
+                                <select class="form-select" id="therapistServiceType" name="service_type" required>
+                                    <option value="" disabled selected>সেবা ধরণ নির্বাচন করুন</option>
+                                    <option value="physiotherapy">ফিজিওথেরাপি</option>
+                                    <option value="nursing">নার্সিং</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistSpecialization">বিশেষজ্ঞতা</label>
+                                <select class="form-select" id="therapistSpecialization" name="specialization" required>
+                                    <option value="" disabled selected>বিশেষজ্ঞতা নির্বাচন করুন</option>
+                                    <option value="orthopedics">অস্থি</option>
+                                    <option value="neurology">নিউরোলজি</option>
+                                    <option value="geriatrics">বৃদ্ধাবস্থা</option>
+                                    <option value="pediatrics">শিশুরোগ</option>
+                                    <option value="sports_medicine">খেলাধুলার চিকিৎসা</option>
+                                    <option value="cardiopulmonary">কার্ডিওপালমোনারি পুনর্বাসন</option>
+                                    <option value="other">অন্যান্য</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistExperience">অভিজ্ঞতা (বছর)</label>
+                                <input type="number" class="form-control" id="therapistExperience" name="experience" placeholder="আপনার অভিজ্ঞতার বছর লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistAvailability">পাওয়া যাবে</label>
+                                <input type="text" class="form-control" id="therapistAvailability" name="availability" placeholder="আপনার উপস্থিতির সময় লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistServiceArea">সেবা এলাকা</label>
+                                <select class="form-select" id="therapistServiceArea" name="service_area" required>
+                                    <option value="" disabled selected>এলাকা নির্বাচন করুন</option>
+                                    <option value="dhaka">ঢাকা</option>
+                                    <option value="chittagong">চট্টগ্রাম</option>
+                                    <option value="rajshahi">রাজশাহী</option>
+                                    <option value="khulna">খুলনা</option>
+                                    <option value="sylhet">সিলেট</option>
+                                    <option value="barisal">বরিশাল</option>
+                                    <option value="mymensingh">ময়মনসিংহ</option>
+                                    <option value="rangpur">রংপুর</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistServiceMode">সেবা মোড</label>
+                                <select class="form-select" id="therapistServiceMode" name="service_mode" required>
+                                    <option value="" disabled selected>সেবা মোড নির্বাচন করুন</option>
+                                    <option value="homeservice">হোম সার্ভিস</option>
+                                    <option value="inchamber">ইন-চেম্বার</option>
+                                    <option value="Both">উভয়</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistProfilePic">প্রোফাইল ছবি</label>
+                                <input type="file" class="form-control" id="therapistProfilePic" name="profile_pic" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistPassword">পাসওয়ার্ড</label>
+                                <input type="password" class="form-control" id="therapistPassword" name="password" placeholder="আপনার পাসওয়ার্ড লিখুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="therapistConfirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+                                <input type="password" class="form-control" id="therapistConfirmPassword" name="confirm_password" placeholder="আপনার পাসওয়ার্ড নিশ্চিত করুন" required>
+                            </div>
+                            <div class="mb-3">
+                                <div class="g-recaptcha" data-sitekey="your-site-key"></div>
+                            </div>
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-primary w-100" onclick="window.location.href='therapistProfile.html'">সাইন আপ</button>
+                            </div>
+                            <div class="text-center">
+                                <p>ইতিমধ্যে একটি অ্যাকাউন্ট আছে? <a href="/login">এখানে লগইন করুন</a></p>
+                            </div>
+                        </form>
+                        <div class="text-center mb-3">
+                            <p>অথবা</p>
+                            <div class="social-icons">
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-google"></i> Google</a>
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook"></i> Facebook</a>
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-twitter"></i> Twitter</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showForm(type) {
+            document.getElementById('patientForm').classList.remove('active');
+            document.getElementById('therapistForm').classList.remove('active');
+            if (type === 'patient') {
+                document.getElementById('patientForm').classList.add('active');
+            } else if (type === 'therapist') {
+                document.getElementById('therapistForm').classList.add('active');
+            }
+        }
+    
+        function setLanguage(lang) {
+            if (lang === 'bn') {
+                // Titles
+                document.getElementById('signup-option-title').textContent = 'সাইনআপ অপশন নির্বাচন করুন';
+                document.getElementById('patient-signup-title').textContent = 'রোগীর সাইনআপ';
+                document.getElementById('therapist-signup-title').textContent = 'থেরাপিস্ট/নার্স সাইনআপ';
+    
+                // Patient form labels
+                document.querySelector('label[for="patientFirstName"]').textContent = 'প্রথম নাম';
+                document.querySelector('label[for="patientLastName"]').textContent = 'শেষ নাম';
+                document.querySelector('label[for="patientDOB"]').textContent = 'জন্ম তারিখ';
+                document.querySelector('label[for="patientGender"]').textContent = 'লিঙ্গ';
+                document.querySelector('label[for="patientMobile"]').textContent = 'মোবাইল নম্বর';
+                document.querySelector('label[for="patientEmail"]').textContent = 'ইমেইল ঠিকানা';
+                document.querySelector('label[for="patientNID"]').textContent = 'জাতীয় পরিচয়পত্র নম্বর';
+                document.querySelector('label[for="patientProfilePic"]').textContent = 'প্রোফাইল ছবি';
+                document.querySelector('label[for="patientPassword"]').textContent = 'পাসওয়ার্ড';
+                document.querySelector('label[for="patientConfirmPassword"]').textContent = 'পাসওয়ার্ড নিশ্চিত করুন';
+    
+                // Therapist form labels
+                document.querySelector('label[for="therapistFirstName"]').textContent = 'প্রথম নাম';
+                document.querySelector('label[for="therapistLastName"]').textContent = 'শেষ নাম';
+                document.querySelector('label[for="therapistDOB"]').textContent = 'জন্ম তারিখ';
+                document.querySelector('label[for="therapistGender"]').textContent = 'লিঙ্গ';
+                document.querySelector('label[for="therapistMobile"]').textContent = 'মোবাইল নম্বর';
+                document.querySelector('label[for="therapistEmail"]').textContent = 'ইমেইল ঠিকানা';
+                document.querySelector('label[for="therapistNID"]').textContent = 'জাতীয় পরিচয়পত্র নম্বর';
+                document.querySelector('label[for="therapistLicense"]').textContent = 'প্রফেশনাল লাইসেন্স নম্বর';
+                document.querySelector('label[for="therapistServiceType"]').textContent = 'সেবার ক্ষেত্র';
+                document.querySelector('label[for="therapistSpecialization"]').textContent = 'বিশেষায়িত ক্ষেত্র';
+                document.querySelector('label[for="therapistExperience"]').textContent = 'অভিজ্ঞতা (বছর)';
+                document.querySelector('label[for="therapistAvailability"]').textContent = 'সময়';
+                document.querySelector('label[for="therapistAddress"]').textContent = 'ঠিকানা';
+                document.querySelector('label[for="therapistPhoto"]').textContent = 'ফটো';
+                document.querySelector('label[for="therapistPassword"]').textContent = 'পাসওয়ার্ড';
+                document.querySelector('label[for="therapistConfirmPassword"]').textContent = 'পাসওয়ার্ড নিশ্চিত করুন';
+    
+                // Placeholders
+                document.getElementById('patientFirstName').placeholder = 'আপনার প্রথম নাম লিখুন';
+                document.getElementById('patientLastName').placeholder = 'আপনার শেষ নাম লিখুন';
+                document.getElementById('patientMobile').placeholder = 'আপনার ফোন নম্বর লিখুন';
+                document.getElementById('patientEmail').placeholder = 'আপনার ইমেইল লিখুন';
+                document.getElementById('patientNID').placeholder = 'আপনার NID নম্বর লিখুন';
+                document.getElementById('patientPassword').placeholder = 'আপনার পাসওয়ার্ড লিখুন';
+                document.getElementById('patientConfirmPassword').placeholder = 'আপনার পাসওয়ার্ড নিশ্চিত করুন';
+    
+                document.getElementById('therapistFirstName').placeholder = 'আপনার প্রথম নাম লিখুন';
+                document.getElementById('therapistLastName').placeholder = 'আপনার শেষ নাম লিখুন';
+                document.getElementById('therapistMobile').placeholder = 'আপনার ফোন নম্বর লিখুন';
+                document.getElementById('therapistEmail').placeholder = 'আপনার ইমেইল লিখুন';
+                document.getElementById('therapistNID').placeholder = 'আপনার NID নম্বর লিখুন';
+                document.getElementById('therapistLicense').placeholder = 'আপনার লাইসেন্স নম্বর লিখুন';
+    
+                // Buttons and links
+                document.querySelector('#patientForm button[type="submit"]').textContent = 'সাইন আপ';
+                document.querySelector('#therapistForm button[type="submit"]').textContent = 'সাইন আপ';
+                document.querySelectorAll('p.text-center a').forEach(a => a.textContent = 'এখানে লগইন করুন');
+                document.querySelectorAll('p.text-center')[1].textContent = 'ইতিমধ্যে একটি অ্যাকাউন্ট আছে?';
+    
+                // Dropdown options
+                document.getElementById('patientGender').options[0].text = 'লিঙ্গ নির্বাচন করুন';
+                document.getElementById('therapistGender').options[0].text = 'লিঙ্গ নির্বাচন করুন';
+            } else if (lang === 'en') {
+                // Titles
+                document.getElementById('signup-option-title').textContent = 'Choose Signup Option';
+                document.getElementById('patient-signup-title').textContent = 'Patient Signup';
+                document.getElementById('therapist-signup-title').textContent = 'Therapist/Nurse Signup';
+    
+                // Patient form labels
+                document.querySelector('label[for="patientFirstName"]').textContent = 'First Name';
+                document.querySelector('label[for="patientLastName"]').textContent = 'Last Name';
+                document.querySelector('label[for="patientDOB"]').textContent = 'Date of Birth';
+                document.querySelector('label[for="patientGender"]').textContent = 'Gender';
+                document.querySelector('label[for="patientMobile"]').textContent = 'Mobile Number';
+                document.querySelector('label[for="patientEmail"]').textContent = 'Email Address';
+                document.querySelector('label[for="patientNID"]').textContent = 'National ID Number';
+                document.querySelector('label[for="patientProfilePic"]').textContent = 'Profile Picture';
+                document.querySelector('label[for="patientPassword"]').textContent = 'Password';
+                document.querySelector('label[for="patientConfirmPassword"]').textContent = 'Confirm Password';
+    
+                // Therapist form labels
+                document.querySelector('label[for="therapistFirstName"]').textContent = 'First Name';
+                document.querySelector('label[for="therapistLastName"]').textContent = 'Last Name';
+                document.querySelector('label[for="therapistDOB"]').textContent = 'Date of Birth';
+                document.querySelector('label[for="therapistGender"]').textContent = 'Gender';
+                document.querySelector('label[for="therapistMobile"]').textContent = 'Mobile Number';
+                document.querySelector('label[for="therapistEmail"]').textContent = 'Email Address';
+                document.querySelector('label[for="therapistNID"]').textContent = 'National ID Number';
+                document.querySelector('label[for="therapistLicense"]').textContent = 'Professional License Number';
+    
+                // Placeholders
+                document.getElementById('patientFirstName').placeholder = 'Enter your first name';
+                document.getElementById('patientLastName').placeholder = 'Enter your last name';
+                document.getElementById('patientMobile').placeholder = 'Enter your mobile number';
+                document.getElementById('patientEmail').placeholder = 'Enter your email';
+                document.getElementById('patientNID').placeholder = 'Enter your NID number';
+                document.getElementById('patientPassword').placeholder = 'Enter your password';
+                document.getElementById('patientConfirmPassword').placeholder = 'Confirm your password';
+    
+                document.getElementById('therapistFirstName').placeholder = 'Enter your first name';
+                document.getElementById('therapistLastName').placeholder = 'Enter your last name';
+                document.getElementById('therapistMobile').placeholder = 'Enter your mobile number';
+                document.getElementById('therapistEmail').placeholder = 'Enter your email';
+                document.getElementById('therapistNID').placeholder = 'Enter your NID number';
+                document.getElementById('therapistLicense').placeholder = 'Enter your license number';
+    
+                // Buttons and links
+                document.querySelector('#patientForm button[type="submit"]').textContent = 'Sign Up';
+                document.querySelector('#therapistForm button[type="submit"]').textContent = 'Sign Up';
+                document.querySelectorAll('p.text-center a').forEach(a => a.textContent = 'Login here');
+                document.querySelectorAll('p.text-center')[1].textContent = 'Already have an account?';
+    
+                // Dropdown options
+                document.getElementById('patientGender').options[0].text = 'Select Gender';
+                document.getElementById('therapistGender').options[0].text = 'Select Gender';
+            }
+        }
+    </script>
+       
